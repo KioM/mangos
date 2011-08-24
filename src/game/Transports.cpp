@@ -756,7 +756,7 @@ void Transport::BuildMovementPacket(Map const* targetMap, bool isMoving /*= fals
     }
 }
 
-void Transport::EnterThisTransport(Creature* pPas, float tX, float tY, float tZ, float tO)
+void Transport::EnterThisTransport(Unit* pPas, float tX, float tY, float tZ, float tO)
 {
     if (!pPas)
         return;
@@ -768,11 +768,14 @@ void Transport::EnterThisTransport(Creature* pPas, float tX, float tY, float tZ,
     pPas->m_movementInfo.SetTransportData(ObjectGuid(HIGHGUID_MO_TRANSPORT, GetObjectGuid().GetCounter()), tX, tY, tZ, tO, 0, -1);
     AddPassenger(pPas);
     pPas->SetActiveObjectState(true);
-    pPas->SendMonsterMoveTransport(this, SPLINETYPE_NORMAL, SPLINEFLAG_UNKNOWN5, 0, 0.0f);
-    UpdateCreaturePositions(pPas, GetMap(), GetPositionX(), GetPositionY(), GetPositionZ()+0.5f, GetOrientation());
+    if (pPas->GetTypeId() != TYPEID_PLAYER)
+    {
+        pPas->SendMonsterMoveTransport(this, SPLINETYPE_NORMAL, SPLINEFLAG_UNKNOWN5, 0, 0.0f);
+        UpdateCreaturePositions(pPas, GetMap(), GetPositionX(), GetPositionY(), GetPositionZ()+0.5f, GetOrientation());
+    }
 }
 
-void Transport::LeaveThisTransport(Creature* pPas)
+void Transport::LeaveThisTransport(Unit* pPas)
 {
     if (!pPas)
         return;

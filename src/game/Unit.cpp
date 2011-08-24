@@ -11877,10 +11877,7 @@ void Unit::ExitVehicle()
         float y = GetPositionY() + trans_y;
         float z = GetPositionZ() + trans_z;
         GetClosePoint(x, y, z, 2.0f);
-        SetTransport(trans);
-        trans->AddPassenger(this);
-        SetLocationMapId(trans->GetMapId());
-        MonsterMoveWithSpeed(x, y, z + 0.5f, 28);
+        trans->EnterThisTransport(this, x, y, z);
     }
     else
     {

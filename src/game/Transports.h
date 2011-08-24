@@ -37,8 +37,8 @@ class MANGOS_DLL_SPEC Transport : public GameObject
         void UpdateCreaturePositions(Creature* npc, Map* map, float second_x, float second_y, float second_z, float second_o, bool teleport = false);
         bool AddPassenger(Unit* passenger);
         bool RemovePassenger(Unit* passenger);
-        void EnterThisTransport(Creature* pPas, float tX, float tY, float tZ, float tO);
-        void LeaveThisTransport(Creature* pPas);
+        void EnterThisTransport(Unit* pPas, float tX, float tY, float tZ, float tO);
+        void LeaveThisTransport(Unit* pPas);
 
         typedef std::set<Unit*> UnitSet;
         UnitSet const& GetUnitPassengers() const { return _passengers; }
