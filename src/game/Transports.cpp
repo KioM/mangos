@@ -771,9 +771,9 @@ void Transport::EnterThisTransport(Unit* pPas, float tX, float tY, float tZ, flo
 
     if (pPas->GetTypeId() != TYPEID_PLAYER)
     {
-        pPas->SetActiveObjectState(true);
+        ((Creature*)pPas)->SetActiveObjectState(true);
         pPas->SendMonsterMoveTransport(this, SPLINETYPE_NORMAL, SPLINEFLAG_UNKNOWN5, 0, 0.0f);
-        UpdateCreaturePositions(pPas, GetMap(), GetPositionX(), GetPositionY(), GetPositionZ()+0.5f, GetOrientation());
+        UpdateCreaturePositions(((Creature*)pPas), GetMap(), GetPositionX(), GetPositionY(), GetPositionZ()+0.5f, GetOrientation());
     }
 }
 
@@ -783,7 +783,7 @@ void Transport::LeaveThisTransport(Unit* pPas)
         return;
 
     if (pPas->GetTypeId() != TYPEID_PLAYER)
-		((Creature*)pPas)->SetActiveObjectState(false);
+        ((Creature*)pPas)->SetActiveObjectState(false);
 
     pPas->SetTransport(NULL);
     RemovePassenger(pPas);

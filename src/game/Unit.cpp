@@ -11877,7 +11877,7 @@ void Unit::ExitVehicle()
         float y = GetPositionY() + trans_y;
         float z = GetPositionZ() + trans_z;
         GetClosePoint(x, y, z, 2.0f);
-        trans->EnterThisTransport(this, x, y, z);
+        trans->EnterThisTransport(this, x, y, z, m_pVehicle->GetBase()->GetOrientation());
     }
     else
     {
