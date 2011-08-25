@@ -19,6 +19,7 @@
 #include "Common.h"
 
 #include "Transports.h"
+#include "TemporarySummon.h"
 #include "MapManager.h"
 #include "ObjectMgr.h"
 #include "ObjectGuid.h"
@@ -767,9 +768,10 @@ void Transport::EnterThisTransport(Unit* pPas, float tX, float tY, float tZ, flo
     pPas->m_movementInfo.AddMovementFlag(MOVEFLAG_ONTRANSPORT);
     pPas->m_movementInfo.SetTransportData(ObjectGuid(HIGHGUID_MO_TRANSPORT, GetObjectGuid().GetCounter()), tX, tY, tZ, tO, 0, -1);
     AddPassenger(pPas);
-    pPas->SetActiveObjectState(true);
+
     if (pPas->GetTypeId() != TYPEID_PLAYER)
     {
+        pPas->SetActiveObjectState(true);
         pPas->SendMonsterMoveTransport(this, SPLINETYPE_NORMAL, SPLINEFLAG_UNKNOWN5, 0, 0.0f);
         UpdateCreaturePositions(pPas, GetMap(), GetPositionX(), GetPositionY(), GetPositionZ()+0.5f, GetOrientation());
     }
@@ -780,7 +782,9 @@ void Transport::LeaveThisTransport(Unit* pPas)
     if (!pPas)
         return;
 
-    pPas->SetActiveObjectState(false);
+    if (pPas->GetTypeId() != TYPEID_PLAYER)
+		((Creature*)pPas)->SetActiveObjectState(false);
+
     pPas->SetTransport(NULL);
     RemovePassenger(pPas);
     pPas->m_movementInfo.ClearTransportData();
